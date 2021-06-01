@@ -1,0 +1,28 @@
+MongoDB. 
+
+	URI string mongodb+srv://user:password@sandbox.y1q6m.mongodb.net/myFirstDatabase
+	
+	Import mongodb data in json - mongoimport --uri "<atlas cluster uri>" --drop <filename>.json (Optional) --collection sales - if not specified the collection will take the name of the file. 
+	Export			     - mongoexport --uri <Atlas Cluster URI>
+						    --collection=<collection name>
+						    --out=<filename>.json
+	
+	Import BSON data 	     - mongorestore --uri "<atlas cluster uri>" --drop dump
+	Export			     - mongodump --uri <Atlas Cluster URI>
+	
+	mongodump --uri "mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/sample_supplies"
+
+	mongoexport --uri="mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/sample_supplies" --collection=sales --out=sales.json
+
+	mongorestore --uri "mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/sample_supplies"  --drop dump
+
+	mongoimport --uri="mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/sample_supplies" --drop sales.json
+	
+	
+Using the mongo shell, 
+	Connecting to the mongo shell. 
+	if we connect to the database 'admin' then we can perform tasks as database administrator. 
+	To use a particular database. -> use db. 
+	To show all the collections from the db -> show collections. 
+	To find a particular entry in db.<collection-name>.find(query)
+	Count a particular query - db.<collection-name>.find(query).count()
