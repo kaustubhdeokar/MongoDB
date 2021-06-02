@@ -1,0 +1,68 @@
+Inserting New Documents. 
+
+Every mongo db document has a unique _id field value. 
+
+Inserting New Data Types. 
+(date, object->address, also int32/64) 
+
+Command to fetch first document from a collection satisfies the query.  -> db.<collection>.findOne(<query>)
+
+Inserting a document into a collection -> db.<collection>.insert({----})
+
+Inserting a duplicate key gives the following error
+
+WriteResult({
+        "nInserted" : 0,
+        "writeError" : {
+                "code" : 11000,
+                "errmsg" : "E11000 duplicate key error collection: sample_training.inspections index: _id_ dup key: { _id: ObjectId('56d61033a378eccde8a8354f') }"
+        }
+})
+
+Inserting successfully gives 
+WriteResult({ "nInserted" : 1 })
+
+If you remove the _id field and insert the entire query , it would be done successfully. 
+As on entry of any document, the mongo db automatically adds a unique ObjectId for the field _id
+
+## Inserting multiple documents. 
+
+db.inspections.insert([{"test1":1},{"test2":2}])
+Output
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 2,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+
+For inserting multiple documents into the collection - they are inserted in the same order as specified. 
+To avoid the same. 
+
+db.inspections.insert([{"test1":1},{"test2":2}],{"ordered":false})
+
+
+## Updating documents. 
+
+Updating documents for city HUDSON, incrementing population by 10 each. 
+	db.zips.updateMany({"city":"HUDSON"},{"$inc":{"pop":10,"field2":value2}})
+ 
+ 
+Setting the value directly.
+	db.zips.updateMany({"city":"HUDSON"},{"$set":{"pop":1022,"field2":value2}})
+
+Push one value inside - array / if the array is not present, it will create one.  
+db.grades.updateOne({"student_id":0,"class_id":339},{"$push":{"scores":{"type":"extra credit","score":99}}})
+ 
+
+## Deleting documents. 
+
+db.inspections.deleteOne({ "test": 3 })
+db.inspections.deleteMany({ "test": 1 })
+
+Dropping the collection
+db.inspection.drop()
