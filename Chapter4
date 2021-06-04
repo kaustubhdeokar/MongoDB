@@ -1,0 +1,107 @@
+Connecting to a Atlas Cluser
+mongo "mongodb+srv://m001-student:m001-mongodb-basics@sandbox.y1q6m.mongodb.net/admin" 
+
+Comparison Operators. 
+
+$eq = equal to
+$ne = not equal to
+$gt = greater than
+$lt = less than
+$gte = greater than equal to. 
+$lte = less than equal to. 
+
+{<field>:{<operator>:<value>}}
+
+Example:- finding trip duration less than equal to 400 for collection - TRIP :- 
+db.trips.find({"tripduration":{"$lte":400}})
+Example:- finding trip duration less than equal to 400 and greater than equal to 200. 
+db.trips.find({"tripduration":{"$lte":400,"$gte":200}})
+Example:-finding trip duration less than equal to 400 as well not a subscriber :- 
+db.trips.find({"tripduration":{"$lte":400},"usertype":{"$ne":"Subscriber"}})
+
+
+Exercise
+1.How many documents in the sample_training.zips collection have fewer than 1000 people listed in the pop field?
+db.zips.find({"pop":{"$lt":1000}}).count()
+
+2.What is the difference between the number of people born in 1998 and the number of people born after 1998 in the sample_training.trips collection?
+db.trips.find({"birth year":{"$gt":1998}}).count() - db.trips.find({"birth year":1998}).count() 
+
+
+Logic Operators
+
+$and 
+"$and":[{"field1":{"$gt":25}},{"field2":{"$lt":100}}]
+$or
+$nor {<operator>:[{statement_1},{statement_n}]
+db.trips.find({"$nor":[{"usertype":"Customer"},{"usertype":"Subscriber"}]}).count() -> 0
+
+$not {"$not":{statement}}
+
+So normally and is used by default. 
+So the only place where we use the and operator is when we use the same operator more than once, in a query. 
+db.routes.find({"$and":[ 
+{ "$or" :[ { "dst_airport": "KZN" },{ "src_airport": "KZN" } ] },
+{ "$or" :[ { "airplane": "CR2" },{ "airplane": "A81" } ] }
+                         ]}).pretty()
+                         
+                         
+
+{"$and":[{"pop":{"$gt":5000}},{"pop":{"$lt":1,000,000}}]}
+
+
+Quiz 1: Logic Operators
+
+Q)How many businesses in the sample_training.inspections dataset have the inspection result "Out of Business" and belong to the "Home Improvement Contractor - 100" sector?
+db.inspections.find({"result":"Out of Business","sector":"Home Improvement Contractor - 100"}).count()
+
+db.companies.find({"founded_year":2004,"category_code":{"$eq":"social","$eq":"web"}})
+
+{"$or":[
+	
+	{"$and":[{"founded_year":2004,"category_code":{"$eq":"social","$eq":"web"}}]},
+	{"$and":[{"founded_month":10,"category_code":{"$eq":"social","$eq":"web"}}]}
+	
+	]}
+
+db.companies.find({
+    $and: [
+        {
+            $or: [{founded_year: 2004}, {founded_month: 10}]
+        },
+        {
+            $or: [{category_code: "web"}, {category_code: "social"}]
+        }
+    ]
+}).count()
+
+
+{"$expr":{"$eq":["$start station name","$end station name"]}}
+
+
+
+Dealing with Array fields 
+
+1. checking the size. 
+{"amenities":{"$size":20}}
+
+2.check for array size and content containing at least elements 'wifi' and 'shampoo' 
+{"amenities":{"$size":20,"$all":["Wifi","Shampoo"]}}
+
+
+Question. 
+To find - accomodations allowed > 6 and review size > 50.
+{"$and":[{"accommodates":{"$gt":6}},{"reviews":{"$size":50}}]}
+
+
+Projections. 
+	db.collection.find({<query>},{<projection>})
+		
+	For projection, we can only use 0's or 1's. 
+	The only time we can mix 1's and 0's is when we are using excluding the _id field because it would be included by default. 
+	db.collection.find({<query>},{<field1>:1,"_id":0})
+	
+Search for each element in array
+{"class_id":431,"scores":{"$elemMatch":{"score":{"$gt":99}}}}
+	
+
