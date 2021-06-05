@@ -1,5 +1,4 @@
 Connecting to a Atlas Cluser
-mongo "mongodb+srv://m001-student:m001-mongodb-basics@sandbox.y1q6m.mongodb.net/admin" 
 
 Comparison Operators. 
 
